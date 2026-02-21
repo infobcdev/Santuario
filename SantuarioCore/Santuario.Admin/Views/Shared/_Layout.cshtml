@@ -1,0 +1,144 @@
+﻿
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>@ViewData["Title"] - Santuário.Admin</title>
+    <link id="favicon" rel="icon" type="image/png" href="~/theme/assets/img/logoicon.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/css/core.css" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/css/theme-default.css" />
+    <link rel="stylesheet" href="~/theme/assets/css/demo.css" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <script src="~/theme/assets/vendor/js/helpers.js"></script>
+    <script src="~/theme/assets/js/config.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+
+
+    <style>
+        /* mantém a modal do Bootstrap com z-index 1050 (padrão),
+                   e faz o SweetAlert ficar acima, em 2000 */
+        .swal2-container {
+            z-index: 2000 !important;
+        }
+
+        .swal2-popup {
+            z-index: 2001 !important;
+        }
+
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- MENU LATERAL -->
+            @await Html.PartialAsync("_Menu")
+            <!-- CONTEÚDO -->
+            <div class="layout-page">
+                <!-- NAVBAR -->
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-nav-right d-flex align-items-center w-100" id="navbar-collapse">
+                        <span class="me-auto ms-3">Olá, <strong>@User.Identity?.Name</strong>! Seja bem-vindo!</span>
+
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <!-- USER DROPDOWN -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="~/theme/assets/img/avatars/user.jpg" class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="~/theme/assets/img/avatars/user.jpg" class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block">@User.Identity?.Name</span>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Usuario" asp-action="Perfil">
+                                            <i class="bx bx-user me-2"></i> <span class="align-middle">Meu Perfil</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="InterfaceCustomizacao" asp-action="Index">
+                                            <i class="bx bxs-brightness me-2"></i> <span class="align-middle">Configurações</span>
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <form asp-controller="Home" asp-action="Logout" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item">Sair</button>
+                                        </form>
+
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--/ USER DROPDOWN -->
+                        </ul>
+                    </div>
+                </nav>
+
+
+                <!-- CONTEÚDO PRINCIPAL -->
+                <div class="content-wrapper">
+                    @*  <div class="container-xxl flex-grow-1 container-p-y"> *@
+                    @RenderBody()
+                    @* </div> *@
+
+                    <!-- FOOTER -->
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div class="container-xxl d-flex justify-content-between py-2 flex-md-row flex-column">
+                            <div>© @DateTime.Now.Year - <a href="https://infobcdev.com.br" class="footer-link fw-bolder">InfoBC</a></div>
+                            <div>Designed by <a href="https://infobcdev.com.br" class="footer-link fw-bolder">InfoBC</a></div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Variavel Global de Limpeza de modal *@
+    <script>
+        window.modalParaLimpar = '@TempData["ModalParaLimpar"]';
+    </script>
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/theme/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/theme/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/theme/assets/vendor/js/menu.js"></script>
+    <script src="~/theme/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="~/theme/assets/js/main.js"></script>
+    <script src="~/theme/assets/vendor/js/defaultjs.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

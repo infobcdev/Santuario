@@ -1,0 +1,183 @@
+﻿@model Santuario.Entidade.ViewModels.ErrorViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutVazio.cshtml";
+    var code = Model?.StatusCode ?? 500;
+
+    var title = "Ocorreu um erro";
+    var message = string.IsNullOrWhiteSpace(Model?.Mensagem)
+        ? "Não foi possível concluir sua solicitação. Tente novamente em instantes."
+        : Model.Mensagem;
+
+    var icon = "bx bx-bug";
+    var iconBgClass = "bg-danger-subtle";
+    var iconTextClass = "icon-text";
+
+    switch (code)
+    {
+        case 404:
+            title = "Página não encontrada";
+            message = "A página que você tentou acessar não existe ou foi movida.";
+            icon = "bx bx-search-alt";
+            iconBgClass = "bg-warning-subtle";
+            iconTextClass = "icon-text";
+            break;
+
+        case 401:
+            title = "Acesso restrito";
+            message = "Você precisa entrar para continuar.";
+            icon = "bx bx-lock-alt";
+            iconBgClass = "bg-info-subtle";
+            iconTextClass = "icon-text";
+            break;
+
+        case 403:
+            title = "Acesso negado";
+            message = "Você não tem permissão para acessar esta área.";
+            icon = "bx bx-shield-quarter";
+            iconBgClass = "bg-secondary-subtle";
+            iconTextClass = "icon-text";
+            break;
+
+        case 504:
+            title = "Tempo excedido";
+            message = "A operação demorou mais que o esperado. Tente novamente.";
+            icon = "bx bx-time-five";
+            iconBgClass = "bg-warning-subtle";
+            iconTextClass = "icon-text";
+            break;
+    }
+
+    ViewData["Title"] = title;
+}
+
+<style>
+    /* remove qualquer fundo “inventado” — o layout manda */
+    .error-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 12px;
+    }
+
+    .error-card {
+        width: 100%;
+        max-width: 560px;
+        border-radius: 16px;
+        border: 1px solid rgba(0,0,0,.08);
+        box-shadow: 0 18px 40px rgba(0,0,0,.12);
+    }
+
+    .icon-circle {
+        width: 54px;
+        height: 54px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0px solid rgba(0,0,0,.06);
+    }
+
+        .icon-circle i {
+            font-size: 26px;
+            line-height: 1;
+        }
+
+    .error-title {
+        font-weight: 800;
+        letter-spacing: -.3px;
+        margin-bottom: 6px;
+        color: #0F172A;
+    }
+
+    .error-msg {
+        color: rgba(15,23,42,.70);
+        margin-bottom: 0;
+    }
+
+    .error-details {
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(0,0,0,.08);
+        color: rgba(15,23,42,.65);
+        font-size: .9rem;
+    }
+
+        .error-details code {
+            background: rgba(0,0,0,.06);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: .85rem;
+            word-break: break-all;
+        }
+
+        .icon-text{      
+        --bs-text-opacity: 1;
+        color: rgb(189 147 95) !important;
+    
+        }
+</style>
+
+<div class="error-wrap">
+    <div class="card error-card">
+        <div class="card-body p-4">
+
+            <div class="d-flex align-items-start gap-3 mb-3">
+                <span class="icon-circle @iconBgClass">
+                    <i class="@icon @iconTextClass"></i>
+                </span>
+
+                <div>
+                    <h4 class="error-title">@title</h4>
+                    <p class="error-msg">@message</p>
+
+                    <div class="mt-2">
+                        <span class="badge bg-light text-dark border">
+                            Status <strong>@code</strong>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-2 mt-2">
+                <div class="col-12">
+                    <a class="btn btn-primary w-100" href="javascript:location.reload()">
+                        <i class="bx bx-refresh me-1"></i> Tentar novamente
+                    </a>
+                </div>
+
+                <div class="col-6">
+                    <a class="btn btn-outline-secondary w-100" asp-controller="Home" asp-action="Index">
+                        <i class="bx bx-home-alt me-1"></i> Início
+                    </a>
+                </div>
+
+                <div class="col-6">
+                    <a class="btn btn-outline-secondary w-100" href="javascript:history.back()">
+                        <i class="bx bx-left-arrow-alt me-1"></i> Voltar
+                    </a>
+                </div>
+            </div>
+
+            @if (Model?.ShowRequestId == true || !string.IsNullOrWhiteSpace(Model?.OriginalPath))
+            {
+                <div class="error-details">
+                    @if (Model?.ShowRequestId == true)
+                    {
+                        <div class="mb-1">
+                            <span class="me-1">Protocolo:</span>
+                            <code>@Model.RequestId</code>
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model?.OriginalPath))
+                    {
+                        <div>
+                            <span class="me-1">Página:</span>
+                            <code>@Model.OriginalPath</code>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

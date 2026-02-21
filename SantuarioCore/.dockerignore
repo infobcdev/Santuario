@@ -1,0 +1,64 @@
+# ==========================================
+# Visual Studio / .NET
+# ==========================================
+
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/*.user
+**/*.*proj.user
+**/*.dbmdl
+**/*.jfm
+**/.toolstarget
+**/.classpath
+**/.project
+**/.settings
+
+# ==========================================
+# Git / Docker / Node
+# ==========================================
+
+**/.git
+**/.dockerignore
+**/docker-compose*
+**/Dockerfile*
+**/node_modules
+**/npm-debug.log
+
+# ==========================================
+# Environment / Secrets
+# ==========================================
+
+**/.env
+**/secrets.dev.yaml
+**/values.dev.yaml
+
+# ==========================================
+# AppSettings
+# ==========================================
+
+# Mantém somente o base
+!**/appsettings.json
+
+# Ignora arquivos de ambiente
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/appsettings.Staging.json
+**/appsettings.*.json
+
+# ==========================================
+# Outros
+# ==========================================
+
+LICENSE
+README.md
+
+# Mantém gitignore dentro de subpastas
+!**/.gitignore
+
+# Permite estrutura interna do git (caso necessário)
+!.git/HEAD
+!.git/config
+!.git/packed-refs
+!.git/refs/heads/**

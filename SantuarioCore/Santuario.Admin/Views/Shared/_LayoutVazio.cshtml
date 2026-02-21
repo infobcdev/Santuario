@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Santuário</title>
+
+    <link id="favicon" rel="icon" type="image/png" href="~/theme/assets/img/logoicon.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/css/core.css" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/css/theme-default.css" />
+    <link rel="stylesheet" href="~/theme/assets/css/demo.css" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="~/theme/assets/vendor/css/pages/page-auth.css" />
+
+    <script src="~/theme/assets/vendor/js/helpers.js"></script>
+    <script src="~/theme/assets/js/config.js"></script>
+
+    @RenderSection("Styles", required: false)
+
+    <style>
+        .login-page input:-webkit-autofill,
+        .login-page input:-webkit-autofill:hover,
+        .login-page input:-webkit-autofill:focus,
+        .login-page textarea:-webkit-autofill,
+        .login-page select:-webkit-autofill {
+            background-color: #fff !important;
+            color: #000 !important;
+        }
+
+        .card {
+            border-radius: 0.5rem 0.5rem 0rem 0rem;
+            background-color: #fff;
+        }
+
+        .form-label {
+            color: #333;
+        }
+    </style>
+</head>
+<body class="login-page">
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <footer class="content-footer footer bg-footer-theme w-100">
+        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <div>© @DateTime.Now.Year - <a href="https://infobcdev.onlinebc.com.br" class="footer-link fw-bolder">InfoBC</a></div>
+            <div>Designed by <a href="https://infobcdev.onlinebc.com.br" class="footer-link fw-bolder">InfoBC</a></div>
+        </div>
+    </footer>
+
+    <script src="~/theme/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="~/theme/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/theme/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/theme/assets/vendor/js/menu.js"></script>
+    <script src="~/theme/assets/js/main.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

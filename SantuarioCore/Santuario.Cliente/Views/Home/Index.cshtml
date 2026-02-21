@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Santuário Nossa Senhora da Conceição Aparecida";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/carousel.css" asp-append-version="true" />
+}
+
+@await Html.PartialAsync("_HeroCarousel")
+@await Html.PartialAsync("_Sobre")
+@await Html.PartialAsync("_Noticias")

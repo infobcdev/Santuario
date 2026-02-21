@@ -1,0 +1,122 @@
+﻿/* ============================
+   Carousel do topo (1600x600)
+   Proporção 8:3
+   ============================ */
+
+.hero-carousel .carousel-item {
+    aspect-ratio: 8 / 3;
+    position: relative;
+}
+
+    .hero-carousel .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Overlay escuro para contraste do texto */
+    .hero-carousel .carousel-item::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( to top, rgba(0,0,0,.70) 0%, rgba(0,0,0,.35) 35%, rgba(0,0,0,0) 70% );
+        pointer-events: none;
+    }
+
+/* ===== Legenda ===== */
+.hero-carousel .carousel-caption {
+    z-index: 3;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(900px, 92%);
+    bottom: 2.2rem;
+    background: rgba(0,0,0,.25);
+    backdrop-filter: blur(3px);
+    border-radius: 14px;
+    padding: 14px 18px;
+    text-align: center;
+}
+
+    .hero-carousel .carousel-caption h5,
+    .hero-carousel .carousel-caption p {
+        color: #fff !important;
+        text-shadow: 0 2px 12px rgba(0,0,0,.85);
+        margin: 0;
+    }
+
+    .hero-carousel .carousel-caption h5 {
+        font-weight: 800;
+        letter-spacing: .5px;
+        font-size: clamp(18px, 2.2vw, 30px);
+    }
+
+    .hero-carousel .carousel-caption p {
+        opacity: .95;
+        font-size: clamp(13px, 1.4vw, 16px);
+        margin-top: 6px;
+    }
+
+/* ===== Controles (setas) ===== */
+.hero-carousel .carousel-control-prev,
+.hero-carousel .carousel-control-next {
+    z-index: 4;
+    width: 64px; /* área clicável */
+}
+
+.hero-carousel .carousel-control-prev-icon,
+.hero-carousel .carousel-control-next-icon {
+    width: 36px;
+    height: 36px;
+}
+
+/* ===== Indicadores (bolinhas) ===== */
+.hero-carousel .carousel-indicators {
+    z-index: 4;
+    margin-bottom: 0.6rem;
+}
+
+/* ============================
+   MOBILE (evita sobrepor setas)
+   ============================ */
+@media (max-width: 768px) {
+
+    /* deixa o banner um pouco mais alto no mobile, sem ficar gigante */
+    .hero-carousel .carousel-item {
+        aspect-ratio: 8 / 3.4;
+    }
+
+    /* legenda ocupa o meio e deixa espaço para as setas nas laterais */
+    .hero-carousel .carousel-caption {
+        width: calc(100% - 120px); /* sobra 60px de cada lado */
+        bottom: 2.6rem;
+        padding: 10px 12px;
+        border-radius: 12px;
+    }
+
+        .hero-carousel .carousel-caption h5 {
+            font-size: 18px;
+        }
+
+        .hero-carousel .carousel-caption p {
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+    /* setas mais estreitas e bem nas laterais */
+    .hero-carousel .carousel-control-prev,
+    .hero-carousel .carousel-control-next {
+        width: 52px;
+    }
+
+    .hero-carousel .carousel-control-prev-icon,
+    .hero-carousel .carousel-control-next-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* indicadores um pouco mais baixos */
+    .hero-carousel .carousel-indicators {
+        margin-bottom: 0.4rem;
+    }
+}

@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutVazio.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <!-- Logo -->
+        <div class="justify-content-center text-center">
+            <img src="~/theme/assets/img/logo1.png" alt="Logo" class="img-fluid" style="max-width: 350px; height: auto;" />
+        </div>
+
+        <h4 class="mb-2 text-center" style="color:#333">Bem vindo! 👋</h4>
+        <p class="mb-4 text-center">Faça login em sua conta!</p>
+
+        <form id="login-form" asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Login</label>
+                <input type="text" class="form-control" name="Login" placeholder="Login" required autofocus />
+            </div>
+
+            <div class="mb-3 form-password-toggle">
+                <label class="form-label">Senha</label>
+                <div class="input-group input-group-merge">
+                    <input type="password" name="Senha" class="form-control" placeholder="********" required />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-login d-grid w-100">Entrar</button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.MensagemErro as string))
+            {
+                <div class="alert alert-danger">@ViewBag.MensagemErro</div>
+            }
+        </form>
+    </div>
+</div>

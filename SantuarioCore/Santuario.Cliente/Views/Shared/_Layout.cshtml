@@ -1,0 +1,222 @@
+﻿@{
+    var title = ViewData["Title"] as string ?? "Santuário Nossa Senhora da Conceição Aparecida";
+}
+
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Santuário Nossa Senhora da Conceição Aparecida - Bela Cruz CE">
+    <meta name="author" content="Santuário Aparecida Bela Cruz">
+
+    <link rel="icon" href="~/theme/images/PERFIL-1.ico" type="image/x-icon">
+
+    <title>@title</title>
+
+    <!-- CSS -->
+    <link href="~/theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/theme/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/theme/css/templatemo-kind-heart-charity.css" rel="stylesheet">
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body id="section_1">
+
+    <!-- ================= HEADER ================= -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-8 col-12 d-flex flex-wrap">
+                    <p class="d-flex me-4 mb-0">
+                        <i class="bi-geo-alt me-2"></i>
+                        BR-402, Bela Cruz - CE, 62570-000
+                    </p>
+
+                    <p class="d-flex me-4 mb-0">
+                        <i class="bi-envelope me-2"></i>
+                        <a href="mailto:santuarioaparecidabc@gmail.com">
+                            santuarioaparecidabc@gmail.com
+                        </a>
+                    </p>
+
+                    <p class="d-flex mb-0">
+                        <a href="https://www.instagram.com/santuarioaparecidabc/" target="_blank"
+                           class="social-icon-link bi-instagram">
+                            @@santuarioaparecidabc
+                        </a>
+                    </p>
+                </div>
+
+                <div class="col-lg-3 col-12 ms-auto d-lg-block d-none">
+                    <ul class="social-icon">
+                        @* Espaço para redes futuras *@
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-expand-lg bg-light shadow-lg">
+        <div class="container">
+
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img src="~/theme/images/PERFIL-2.png" class="logo img-fluid" alt="Santuário">
+                <span>
+                    Santuário
+                    <small>Nossa Senhora da Conceição Aparecida</small>
+                    <small>Bela Cruz - CE</small>
+                </span>
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" asp-controller="Home" asp-action="Index">Início</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" href="#section_2">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" href="#section_3">Notícias</a>
+                    </li>
+                    <!--
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="navbarLightDropdownMenuLink"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Notícias
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-light">
+                            <li>
+                                <a class="dropdown-item" asp-controller="News" asp-action="Index">
+                                    Lista de Notícias
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" asp-controller="News" asp-action="Detail" asp-route-id="1">
+                                    Notícia Detalhe
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    -->
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" href="#section_4">Contato</a>
+                    </li>
+
+                    <li class="nav-item ms-3">
+                        <a class="nav-link custom-btn custom-border-btn btn"
+                           asp-controller="Donate"
+                           asp-action="Index">
+                            FAÇA SUA DOAÇÃO
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <section class="news-section section-padding" id="section_4">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-12 mb-4">
+                        <img src="~/theme/images/PERFIL-1.png" class="logo img-fluid" alt="">
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+                        <ul class="footer-menu"></ul>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-12 mx-auto">
+                        <h5 class="site-footer-title mb-3">Informações de Contato</h5>
+
+                        <p class="text-white d-flex mb-2">
+                            <i class="bi-telephone me-2"></i>
+                            <a href="tel:120-240-9600" class="site-footer-link">
+                                120-240-9600
+                            </a>
+                        </p>
+
+                        <p class="text-white d-flex">
+                            <i class="bi-envelope me-2"></i>
+                            <a href="mailto:santuarioaparecidabc@gmail.com" class="site-footer-link">
+                                santuarioaparecidabc@gmail.com
+                            </a>
+                        </p>
+
+                        <p class="text-white d-flex mt-3">
+                            <i class="bi-geo-alt me-2"></i>
+                            BR-402, Bela Cruz - CE, 62570-000
+                        </p>
+
+                        <a href="#" class="custom-btn btn mt-3">Ver Localização</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="site-footer-bottom">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-7 col-12">
+                            <p class="copyright-text mb-0">
+                                <br>
+                                <a href="#">Santuário Nossa Senhora da Conceição Aparecida</a><br>
+                                Design: InfoBC © @DateTime.Now.Year
+                            </p>
+                        </div>
+
+                        <div class="col-lg-6 col-md-5 col-12 d-flex justify-content-center align-items-center mx-auto">
+                            <ul class="social-icon"></ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+
+    <!-- ================= JS ================= -->
+    <script src="~/theme/js/jquery.min.js"></script>
+    <script src="~/theme/js/bootstrap.min.js"></script>
+    <script src="~/theme/js/jquery.sticky.js"></script>
+    <script src="~/theme/js/click-scroll.js"></script>
+    <script src="~/theme/js/counter.js"></script>
+    <script src="~/theme/js/custom.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
