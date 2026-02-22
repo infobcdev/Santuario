@@ -1,5 +1,4 @@
-﻿
-using Santuario.Entidade.Entities.Base;
+﻿using Santuario.Entidade.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +16,6 @@ namespace Santuario.Entidade.Entities
         [Required]
         public string Slug { get; set; }
 
-        [Required]
         public string ImagemCapaUrl { get; set; }
 
         [Required]
@@ -28,32 +26,23 @@ namespace Santuario.Entidade.Entities
 
         public string Subcategoria { get; set; }
 
-        /// <summary>
-        /// Pequeno resumo para listagem
-        /// </summary>
+        /// <summary>Pequeno resumo para listagem</summary>
         public string Resumo { get; set; }
 
-        /// <summary>
-        /// Conteúdo rico (tipo Word) em JSON (ex: Delta/Editor).
-        /// </summary>
+        /// <summary>Conteúdo rico (Delta/Editor) em JSON</summary>
         [Required]
         public string ConteudoJson { get; set; }
 
-        /// <summary>
-        /// HTML gerado do editor para render rápido.
-        /// </summary>
+        /// <summary>HTML gerado do editor</summary>
         public string ConteudoHtml { get; set; }
 
         public bool PermiteComentarios { get; set; } = true;
 
-        /// <summary>
-        /// 0=Rascunho, 1=Publicado, 2=Arquivado
-        /// </summary>
+        /// <summary>0=Rascunho, 1=Publicado, 2=Arquivado</summary>
         public int Status { get; set; } = 0;
 
         public DateTime? DataPublicacao { get; set; }
 
-        // Relacionamentos
         public virtual ICollection<NoticiaComentario> Comentarios { get; set; } = new List<NoticiaComentario>();
     }
 }

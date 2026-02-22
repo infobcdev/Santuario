@@ -360,16 +360,16 @@ button.list-group-item-primary {
 
     .btn-check:focus + .btn-primary, .btn-primary:focus, .btn-primary.focus {
         color: #fff;
-        background-color: #852514;
-        border-color: #852514;
+        background-color: #886336;
+        border-color: #886336;
         transform: translateY(0);
         box-shadow: none;
     }
 
     .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
         color: #fff;
-        background-color: #852514;
-        border-color: #852514;
+        background-color: #886336;
+        border-color: #886336;
     }
 
         .btn-check:checked + .btn-primary:focus, .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus, .show > .btn-primary.dropdown-toggle:focus {

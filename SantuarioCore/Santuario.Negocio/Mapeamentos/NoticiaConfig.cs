@@ -13,58 +13,63 @@ namespace Santuario.Negocio.Mapeamentos
             e.HasKey(x => x.Id);
 
             e.Property(x => x.Id)
-             .HasColumnName("id")
-             .ValueGeneratedOnAdd()
-             .UseIdentityByDefaultColumn();
+                .HasColumnName("id")
+                .ValueGeneratedOnAdd()
+                .UseIdentityByDefaultColumn();
 
             e.Property(x => x.Slug)
-             .HasColumnName("slug")
-             .HasMaxLength(250)
-             .IsRequired();
+                .HasColumnName("slug")
+                .HasMaxLength(250)
+                .IsRequired();
 
             e.HasIndex(x => x.Slug)
-             .IsUnique()
-             .HasDatabaseName("ux_noticia_slug");
+                .IsUnique()
+                .HasDatabaseName("ux_noticia_slug");
 
             e.Property(x => x.ImagemCapaUrl)
-             .HasColumnName("imagemcapaurl")
-             .HasMaxLength(500)
-             .IsRequired();
+                .HasColumnName("imagemcapaurl")
+                .HasMaxLength(500);
 
             e.Property(x => x.Titulo)
-             .HasColumnName("titulo")
-             .HasMaxLength(250)
-             .IsRequired();
+                .HasColumnName("titulo")
+                .HasMaxLength(250)
+                .IsRequired();
 
             e.Property(x => x.Categoria)
-             .HasColumnName("categoria")
-             .HasMaxLength(150)
-             .IsRequired();
+                .HasColumnName("categoria")
+                .HasMaxLength(150)
+                .IsRequired();
 
             e.Property(x => x.Subcategoria)
-             .HasColumnName("subcategoria")
-             .HasMaxLength(150);
+                .HasColumnName("subcategoria")
+                .HasMaxLength(150);
 
+            // resumo: escolha 1
             e.Property(x => x.Resumo)
-             .HasColumnName("resumo");
+                .HasColumnName("resumo")
+                .HasMaxLength(600);
 
-            // jsonb no PostgreSQL
+            // Conteúdo JSON como jsonb
             e.Property(x => x.ConteudoJson)
-             .HasColumnName("conteudojson")
-             .HasColumnType("jsonb")
-             .IsRequired();
+                .HasColumnName("conteudojson")
+                .HasColumnType("jsonb")
+                .IsRequired();
 
+            //HTML pode ser grande => text
             e.Property(x => x.ConteudoHtml)
-             .HasColumnName("conteudohtml");
+                .HasColumnName("conteudohtml")
+                .HasColumnType("text");
 
             e.Property(x => x.PermiteComentarios)
-             .HasColumnName("permitecomentarios");
+                .HasColumnName("permitecomentarios")
+                .HasDefaultValue(true);
 
             e.Property(x => x.Status)
-             .HasColumnName("status");
+                .HasColumnName("status")
+                .HasDefaultValue(0);
 
             e.Property(x => x.DataPublicacao)
-             .HasColumnName("datapublicacao");
+                .HasColumnName("datapublicacao");
 
             // Auditoria (base)
             e.Property(x => x.DataCriacao).HasColumnName("datacriacao");
@@ -74,9 +79,16 @@ namespace Santuario.Negocio.Mapeamentos
 
             // Relacionamento 1-N
             e.HasMany(x => x.Comentarios)
-             .WithOne(x => x.Noticia)
-             .HasForeignKey(x => x.IdNoticia)
-             .OnDelete(DeleteBehavior.Cascade);
+                .WithOne(x => x.Noticia)
+                .HasForeignKey(x => x.IdNoticia)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Índices úteis para listagem pública/admin
+            e.HasIndex(x => new { x.Status, x.DataPublicacao })
+                .HasDatabaseName("ix_noticia_status_datapublicacao");
+
+            e.HasIndex(x => new { x.Categoria, x.Status })
+                .HasDatabaseName("ix_noticia_categoria_status");
         }
     }
 }

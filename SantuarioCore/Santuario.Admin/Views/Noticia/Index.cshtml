@@ -1,0 +1,151 @@
+﻿@using System.Linq
+@model Santuario.Admin.ViewModels.Noticia.IndexNoticiaViewModel
+
+@{
+    ViewData["Title"] = "Notícias";
+}
+<link rel="stylesheet" href="~/css/noticia.css" asp-append-version="true" />
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Notícias </span>Cadastro
+    </h4>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-newspaper me-2"></i> Notícias
+            </h5>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    onclick="ModalLoader.open('Noticia','CarregarModalNoticia', 0)">
+                <i class="fas fa-plus me-2"></i> Nova Notícia
+            </button>
+        </div>
+
+        <div class="card-body">
+
+            <!-- FILTROS -->
+            <form method="get" asp-action="Index" class="row g-2 mb-4">
+                <div class="col-12 col-sm-6 col-md-7">
+                    <label class="form-label">Pesquisar</label>
+                    <input name="pesquisar"
+                           value="@Model.Pesquisar"
+                           class="form-control"
+                           placeholder="Ex: título, categoria, resumo..." />
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-select" asp-items="Model.StatusOptions"></select>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-2 align-self-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Consultar
+                    </button>
+                </div>
+            </form>
+
+            <!-- TABELA -->
+            <div class="table-responsive overflow-auto">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th style="width:240px;">Categoria</th>
+                            <th style="width:140px;">Status</th>
+                            <th style="width:180px;">Publicação</th>
+                            <th class="text-center" style="width:200px;">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Itens != null && Model.Itens.Any())
+                        {
+                            foreach (var x in Model.Itens)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold">@x.Titulo</div>
+                                        @if (!string.IsNullOrWhiteSpace(x.Subcategoria))
+                                        {
+                                            <small class="text-muted">@x.Subcategoria</small>
+                                        }
+                                    </td>
+
+                                    <td>@x.Categoria</td>
+
+                                    <td>
+                                        @if (x.Status == 1)
+                                        {
+                                            <span class="badge bg-success">Publicado</span>
+                                        }
+                                        else if (x.Status == 2)
+                                        {
+                                            <span class="badge bg-secondary">Arquivado</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-label-primary">Rascunho</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (x.DataPublicacao.HasValue)
+                                        {
+                                            @x.DataPublicacao.Value.ToString("dd/MM/yyyy HH:mm")
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">—</span>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        <div class="btn-group gap-2">
+
+                                            <button type="button"
+                                                    class="btn btn-sm btn-primary"
+                                                    title="Editar"
+                                                    onclick="ModalLoader.open('Noticia','CarregarModalNoticia', @x.Id)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-sm btn-secondary"
+                                                    title="Arquivar"
+                                                    data-delete-button="true"
+                                                    data-url="@Url.Action("Arquivar", "Noticia", new { id = x.Id })"
+                                                    data-confirm-text="Deseja realmente arquivar esta notícia?"
+                                                    data-success-msg="Notícia arquivada com sucesso!"
+                                                    data-refresh="page">
+                                                <i class="fas fa-box-archive"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    Nenhuma notícia cadastrada.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="modalContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
+<script src="~/js/noticia.js" asp-append-version="true"></script>

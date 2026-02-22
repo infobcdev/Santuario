@@ -1,0 +1,86 @@
+﻿@using Santuario.Entidade.Entities
+@model Santuario.Admin.ViewModels.Usuario.ModalUsuarioViewModel
+
+<div class="modal fade"
+     id="ModalUsuario"
+     tabindex="-1"
+     aria-labelledby="tituloUsuario"
+     aria-hidden="true"
+     data-id-modal="ModalUsuario">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="formUsuario"
+                  asp-controller="Usuario"
+                  asp-action="SalvarUsuario"
+                  method="post"
+                  data-ajax="true"
+                  data-success-msg="Usuário salvo com sucesso!"
+                  data-refresh="page">
+                @Html.AntiForgeryToken()
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloUsuario">
+                        <i class="fas fa-user me-2"></i>
+                        @(Model.Usuario.Id == 0 ? "Novo Usuário" : "Editar Usuário")
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Usuario.Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Nome</label>
+                        <input asp-for="Usuario.Nome" class="form-control" placeholder="Ex: João Silva" />
+                        <span class="text-danger" asp-validation-for="Usuario.Nome"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Login</label>
+                        <input asp-for="Usuario.Login" class="form-control" placeholder="Ex: joao" />
+                        <span class="text-danger" asp-validation-for="Usuario.Login"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Senha
+                            @if (Model.Usuario.Id > 0)
+                            {
+                                <small class="text-muted">(deixe em branco para manter)</small>
+                            }
+                        </label>
+
+                        <input asp-for="Usuario.Senha" type="password" class="form-control" placeholder="••••••••" />
+                        <span class="text-danger" asp-validation-for="Usuario.Senha"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <select asp-for="Usuario.Tipo"
+                                class="form-select"
+                                asp-items="Html.GetEnumSelectList<TipoUsuario>()"></select>
+                        <span class="text-danger" asp-validation-for="Usuario.Tipo"></span>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="Usuario.Ativo" class="form-check-input" type="checkbox" />
+                        <label class="form-check-label">Usuário Ativo</label>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

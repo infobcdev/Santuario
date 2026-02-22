@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Santuario.Negocio.Interface;
+using Santuario.Negocio.Interfaces;
+using Santuario.Negocio.Negocios;
 using Santuario.Negocio.Servicos;
 
 namespace Santuario.Negocio.Extensions
@@ -17,12 +19,10 @@ namespace Santuario.Negocio.Extensions
             // Negócio (centralizado)
             // ============================
             services.AddScoped<ILoginNegocio, LoginNegocio>();
-
-            // Exemplo (quando você criar):
-            // services.AddScoped<ICarrosselNegocio, CarrosselNegocio>();
-            // services.AddScoped<ISobreNegocio, SobreNegocio>();
-            // services.AddScoped<INoticiaNegocio, NoticiaNegocio>();
-            // services.AddScoped<INoticiaComentarioNegocio, NoticiaComentarioNegocio>();
+            services.AddScoped<IUsuarioNegocio, UsuarioNegocio>();
+            services.AddScoped<ICarrosselNegocio, CarrosselNegocio>();
+            services.AddScoped<ISobreNegocio, SobreNegocio>();
+            services.AddScoped<INoticiaNegocio, NoticiaNegocio>();
 
             return services;
         }

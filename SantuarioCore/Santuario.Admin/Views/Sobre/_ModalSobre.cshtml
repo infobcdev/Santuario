@@ -1,0 +1,204 @@
+﻿@using System.Linq
+@model Santuario.Admin.ViewModels.Sobre.ModalSobreViewModel
+
+<div class="modal fade"
+     id="ModalSobre"
+     data-id-modal="ModalSobre"
+     tabindex="-1"
+     aria-labelledby="tituloSobre"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <form id="formSobre"
+                  asp-controller="Sobre"
+                  asp-action="SalvarSobre"
+                  method="post"
+                  enctype="multipart/form-data"
+                  data-ajax="true"
+                  data-success-msg="Sobre salvo com sucesso!"
+                  data-refresh="page">
+
+                @Html.AntiForgeryToken()
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloSobre">
+                        <i class="fas fa-circle-info me-2"></i>
+                        @(Model.Item.Id == 0 ? "Novo Sobre" : "Editar Sobre")
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <!-- COLUNA ESQUERDA -->
+                        <div class="col-md-7">
+
+                            <div class="alert alert-info">
+                                <i class="fa fa-circle-exclamation me-2"></i>
+                                Imagem opcional (PNG/JPG). Máx: 2MB.
+                            </div>
+
+                            <input type="hidden" asp-for="Item.Id" />
+                            <input type="hidden" asp-for="Item.ImagemUrl" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Título 1</label>
+                                <input asp-for="Item.Titulo1" class="form-control" />
+                                <span class="text-danger" asp-validation-for="Item.Titulo1"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Descrição 1</label>
+                                <textarea asp-for="Item.Descricao1" class="form-control" rows="4"></textarea>
+                                <span class="text-danger" asp-validation-for="Item.Descricao1"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Título 2</label>
+                                <input asp-for="Item.Titulo2" class="form-control" />
+                                <span class="text-danger" asp-validation-for="Item.Titulo2"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Descrição 2</label>
+                                <textarea asp-for="Item.Descricao2" class="form-control" rows="4"></textarea>
+                                <span class="text-danger" asp-validation-for="Item.Descricao2"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Imagem</label>
+                                <input type="file"
+                                       id="arquivoImagemSobre"
+                                       name="imagemSobre"
+                                       class="form-control"
+                                       accept=".png,.jpg,.jpeg" />
+                                <div class="form-text">Apenas PNG ou JPG.</div>
+                            </div>
+
+                            <div class="form-check mt-3">
+                                <input asp-for="Item.Ativo" class="form-check-input" type="checkbox" />
+                                <label class="form-check-label">Ativo</label>
+                            </div>
+
+                            <hr class="my-4" />
+
+                            <!-- TÓPICOS -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="form-label fw-semibold mb-0">Tópicos</label>
+
+                                <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddTopico">
+                                    <i class="fas fa-plus me-1"></i>Adicionar tópico
+                                </button>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle" id="tblTopicos">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:120px;">Ordem</th>
+                                            <th>Texto</th>
+                                            <th style="width:130px;">Ativo</th>
+                                            <th class="text-center" style="width:70px;">#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < (Model.Topicos?.Count ?? 0); i++)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input class="form-control"
+                                                           type="number"
+                                                           min="1"
+                                                           name="Topicos[@i].Ordem"
+                                                           value="@Model.Topicos[i].Ordem" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control"
+                                                           name="Topicos[@i].Texto"
+                                                           value="@Model.Topicos[i].Texto" />
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input"
+                                                               type="checkbox"
+                                                               name="Topicos[@i].Ativo"
+                                                               value="true"
+                                                               @(Model.Topicos[i].Ativo ? "checked" : "") />
+                                                        <input type="hidden"
+                                                               name="Topicos[@i].Ativo"
+                                                               value="false" />
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger btnRemoverTopico" title="Remover">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger mt-3"></div>
+
+                        </div>
+
+                        <!-- COLUNA DIREITA (Preview) -->
+                        <div class="col-md-5 text-center">
+
+                            <label class="form-label fw-semibold">Pré-visualização</label>
+
+                            @{
+                                var img = !string.IsNullOrWhiteSpace(Model.Item.ImagemUrl)
+                                ? Model.Item.ImagemUrl
+                                : Url.Content("~/theme/assets/img/semImagem.png");
+                            }
+
+                            <div class="border rounded p-3 bg-light shadow-sm">
+                                <img id="previewImagemSobre"
+                                     src="@img"
+                                     alt="Pré-visualização"
+                                     class="img-fluid rounded"
+                                     style="max-height:400px; object-fit:contain;" />
+                            </div>
+
+                            <small class="text-muted d-block mt-2">
+                                Se enviar imagem nova, ela substituirá a atual.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">
+                        Fechar
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Salvar
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    window.SobreModal?.init('#ModalSobre');
+</script>

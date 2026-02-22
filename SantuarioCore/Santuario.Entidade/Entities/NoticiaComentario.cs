@@ -1,5 +1,4 @@
-﻿
-using Santuario.Entidade.Entities.Base;
+﻿using Santuario.Entidade.Entities.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,7 +14,6 @@ namespace Santuario.Entidade.Entities
         [Required]
         public int IdNoticia { get; set; }
 
-        // Login Google 
         [Required]
         public string UsuarioProvider { get; set; } = "Google";
 
@@ -33,7 +31,6 @@ namespace Santuario.Entidade.Entities
         [Required]
         public bool Ativo { get; set; } = true;
 
-        // Relacionamento
         [ForeignKey(nameof(IdNoticia))]
         public virtual Noticia Noticia { get; set; }
     }

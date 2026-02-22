@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Santuario.Admin.ViewModels
+namespace Santuario.Admin.ViewModels.Login
 {
     public class LoginViewModel
     {

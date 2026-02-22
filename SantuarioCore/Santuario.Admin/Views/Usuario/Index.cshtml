@@ -1,0 +1,144 @@
+﻿@using Santuario.Entidade.Entities
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model Santuario.Admin.ViewModels.Usuario.IndexUsuarioViewModel
+
+@{
+    ViewData["Title"] = "Usuários";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Usuários </span>Cadastrados
+    </h4>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-users me-2"></i> Usuários
+            </h5>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    onclick="ModalLoader.open('Usuario','CarregarModalUsuario', 0)">
+                <i class="fas fa-plus me-2"></i> Novo Usuário
+            </button>
+        </div>
+
+        <div class="card-body">
+
+            <!-- FILTROS -->
+            <form method="get" asp-action="Index" class="row g-2 mb-4">
+                <div class="col-12 col-sm-6 col-md-5">
+                    <label class="form-label">Nome / Login</label>
+                    <input name="pesquisar"
+                           value="@Model.Pesquisar"
+                           class="form-control"
+                           placeholder="Ex: João, admin..." />
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <label class="form-label">Status</label>
+                    <select name="ativo" class="form-select" asp-items="Model.StatusOptions"></select>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-2">
+                    <label class="form-label">Tipo</label>
+                    <select name="tipo" class="form-select" asp-items="Model.TipoOptions"></select>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-2 align-self-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Consultar
+                    </button>
+                </div>
+            </form>
+
+            <!-- TABELA -->
+            <div class="table-responsive overflow-auto">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th style="width: 220px;">Login</th>
+                            <th style="width: 180px;">Tipo</th>
+                            <th style="width: 120px;">Status</th>
+                            <th class="text-center" style="width: 180px;">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Usuarios != null && Model.Usuarios.Any())
+                        {
+                            foreach (var u in Model.Usuarios)
+                            {
+                                <tr>
+                                    <td>@u.Nome</td>
+                                    <td>@u.Login</td>
+
+                                    <td>
+                                        @if (u.Tipo == TipoUsuario.Administrador)
+                                        {
+                                            <span class="badge bg-warning text-dark">Administrador</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-primary">Editor</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (u.Ativo)
+                                        {
+                                            <span class="badge bg-success">Ativo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Inativo</span>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        <div class="btn-group gap-2">
+
+                                            <!-- EDITAR -->
+                                            <button type="button"
+                                                    class="btn btn-sm btn-primary"
+                                                    title="Editar"
+                                                    onclick="ModalLoader.open('Usuario','CarregarModalUsuario', @u.Id)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+
+                                            <!-- INATIVAR (DeleteAjax) -->
+                                            <button type="button"
+                                                    class="btn btn-sm btn-secondary"
+                                                    title="Inativar"
+                                                    data-delete-button="true"
+                                                    data-url="@Url.Action("Excluir", "Usuario", new { id = u.Id })"
+                                                    data-confirm-text="Deseja realmente inativar este usuário?"
+                                                    data-success-msg="Usuário inativado com sucesso!"
+                                                    data-refresh="page">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    Nenhum usuário cadastrado.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="modalContainer"></div>

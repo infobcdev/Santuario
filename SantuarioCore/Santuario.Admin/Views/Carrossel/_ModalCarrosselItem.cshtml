@@ -1,0 +1,157 @@
+﻿@model Santuario.Admin.ViewModels.Carrossel.ModalCarrosselItemViewModel
+
+<div class="modal fade"
+     id="ModalCarrossel"
+     data-id-modal="ModalCarrossel"
+     tabindex="-1"
+     aria-labelledby="tituloCarrossel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <form id="formCarrossel"
+                  asp-controller="Carrossel"
+                  asp-action="SalvarCarrossel"
+                  method="post"
+                  enctype="multipart/form-data"
+                  data-ajax="true"
+                  data-success-msg="Item do carrossel salvo com sucesso!"
+                  data-refresh="page">
+
+                @Html.AntiForgeryToken()
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloCarrossel">
+                        <i class="fas fa-images me-2"></i>
+                        @(Model.Item.Id == 0 ? "Novo Item do Carrossel" : "Editar Item do Carrossel")
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <!-- ========================= -->
+                        <!-- COLUNA ESQUERDA (Campos) -->
+                        <!-- ========================= -->
+                        <div class="col-md-7">
+
+                            <div class="alert alert-info">
+                                <i class="fa fa-circle-exclamation me-2"></i>
+                                Selecione uma imagem (PNG ou JPG). Máx: 2MB.
+                            </div>
+
+                            <input type="hidden" asp-for="Item.Id" />
+                            <input type="hidden" asp-for="Item.ImagemUrl" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Ordem</label>
+                                <input asp-for="Item.Ordem"
+                                       type="number"
+                                       min="1"
+                                       class="form-control" />
+                                <span class="text-danger"
+                                      asp-validation-for="Item.Ordem"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Título</label>
+                                <input asp-for="Item.Titulo"
+                                       class="form-control" />
+                                <span class="text-danger"
+                                      asp-validation-for="Item.Titulo"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Descrição</label>
+                                <textarea asp-for="Item.Descricao"
+                                          class="form-control"
+                                          rows="4"></textarea>
+                                <span class="text-danger"
+                                      asp-validation-for="Item.Descricao"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Imagem</label>
+                                <input type="file"
+                                       id="arquivoImagem"
+                                       name="imagemCarrossel"
+                                       class="form-control"
+                                       accept=".png,.jpg,.jpeg" />
+                                <div class="form-text">
+                                    Apenas PNG ou JPG são permitidos.
+                                </div>
+                            </div>
+
+                            <div class="form-check mt-3">
+                                <input asp-for="Item.Ativo"
+                                       class="form-check-input"
+                                       type="checkbox" />
+                                <label class="form-check-label">
+                                    Item Ativo
+                                </label>
+                            </div>
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="text-danger mt-3"></div>
+
+                        </div>
+
+                        <!-- ========================= -->
+                        <!-- COLUNA DIREITA (Preview) -->
+                        <!-- ========================= -->
+                        <div class="col-md-5 text-center">
+
+                            <label class="form-label fw-semibold">
+                                Pré-visualização
+                            </label>
+
+                            @{
+                                var img = !string.IsNullOrWhiteSpace(Model.Item.ImagemUrl)
+                                ? Model.Item.ImagemUrl
+                                : Url.Content("~/theme/assets/img/semImagem.png");
+                            }
+
+                            <div class="border rounded p-3 bg-light shadow-sm">
+                                <img id="previewImagem"
+                                     src="@img"
+                                     alt="Pré-visualização"
+                                     class="img-fluid rounded"
+                                     style="max-height:400px; object-fit:contain;" />
+                            </div>
+
+                            <small class="text-muted d-block mt-2">
+                                Recomendado: 1920x720px
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">
+                        Fechar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>
+                        Salvar
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

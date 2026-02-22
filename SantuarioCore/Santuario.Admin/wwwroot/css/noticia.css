@@ -1,0 +1,286 @@
+﻿
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Merriweather:wght@300;400;700&family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+/* ===========================================
+   BASE / FIX LAYOUT
+   =========================================== */
+#ModalNoticia,
+#ModalNoticia * {
+    box-sizing: border-box;
+}
+
+    #ModalNoticia .modal-body {
+        overflow-x: hidden !important;
+    }
+
+    #ModalNoticia .row > [class*="col-"] {
+        min-width: 0;
+    }
+
+   /* ===========================================
+   TOOLBAR
+   =========================================== */
+    #ModalNoticia .noticia-toolbar {
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 10px;
+        padding: 6px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+        #ModalNoticia .noticia-toolbar .ql-formats {
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            margin-right: 0 !important;
+            max-width: 100%;
+            min-width: 0;
+        }
+
+    /* wrappers */
+    #ModalNoticia .noticia-fontsize-wrap,
+    #ModalNoticia .noticia-color-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        flex: 0 1 auto;
+        min-width: 0;
+    }
+
+    /* SELECT do tamanho (padrão Quill) com cara de input */
+    #ModalNoticia #noticiaToolbar .ql-size {
+        width: 78px;
+        height: 30px;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 8px;
+        padding: 0 8px;
+        font-size: 13px;
+        background: #fff;
+    }
+
+  /* ===========================================
+   CORES (toolbar)
+   =========================================== */
+    #ModalNoticia .noticia-color-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 600;
+    }
+
+    #ModalNoticia .noticia-color-wrap input[type="color"] {
+        width: 34px;
+        height: 28px;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    #ModalNoticia #noticiaClearColor {
+        height: 28px;
+        line-height: 1;
+        padding: 0 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        white-space: nowrap;
+        margin: 0;
+    }
+
+   /* ===========================================
+   QUILL: editor e preview com mesma base
+   =========================================== */
+    #ModalNoticia #noticiaEditor .ql-editor,
+    #ModalNoticia .noticia-preview {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    /* editor */
+    #ModalNoticia #noticiaEditor {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        overflow: hidden; /* evita scroll horizontal por bug de conteúdo */
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 10px;
+    }
+
+        #ModalNoticia #noticiaEditor .ql-container {
+            width: 100%;
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        #ModalNoticia #noticiaEditor .ql-editor {
+            min-height: 120px;
+            padding: 14px;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+    /* preview */
+    #ModalNoticia .noticia-preview {
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+   /* ===========================================
+   IMAGENS (editor + preview)
+   alinhamento via ql-align (como texto)
+   =========================================== */
+        #ModalNoticia #noticiaEditor .ql-editor img,
+        #ModalNoticia .noticia-preview img {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 8px;
+            display: inline-block; /* necessário p/ respeitar text-align do bloco */
+        }
+
+        /* quando o bloco estiver alinhado, a imagem segue o alinhamento */
+        #ModalNoticia #noticiaEditor .ql-editor .ql-align-center,
+        #ModalNoticia .noticia-preview .ql-align-center {
+            text-align: center !important;
+        }
+
+        #ModalNoticia #noticiaEditor .ql-editor .ql-align-right,
+        #ModalNoticia .noticia-preview .ql-align-right {
+            text-align: right !important;
+        }
+
+        #ModalNoticia #noticiaEditor .ql-editor .ql-align-justify,
+        #ModalNoticia .noticia-preview .ql-align-justify {
+            text-align: justify !important;
+        }
+
+        /* espaçamento padrão para imagens dentro de parágrafos */
+        #ModalNoticia #noticiaEditor .ql-editor p img,
+        #ModalNoticia .noticia-preview p img {
+            margin: 10px 0;
+        }
+
+    /* placeholder do quill (sem itálico) */
+    #ModalNoticia #noticiaEditor .ql-editor.ql-blank::before {
+        font-style: normal;
+    }
+
+  /* ===========================================
+   FONTES DO QUILL (ql-font-*) — editor + preview
+   =========================================== */
+    #ModalNoticia .ql-font-arial,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-arial {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #ModalNoticia .ql-font-times,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-times {
+        font-family: "Times New Roman", Times, serif;
+    }
+
+    #ModalNoticia .ql-font-georgia,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-georgia {
+        font-family: Georgia, serif;
+    }
+
+    #ModalNoticia .ql-font-tahoma,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-tahoma {
+        font-family: Tahoma, Geneva, sans-serif;
+    }
+
+    #ModalNoticia .ql-font-trebuchet,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-trebuchet {
+        font-family: "Trebuchet MS", sans-serif;
+    }
+
+    #ModalNoticia .ql-font-verdana,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-verdana {
+        font-family: Verdana, Geneva, sans-serif;
+    }
+
+    #ModalNoticia .ql-font-courier,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-courier {
+        font-family: "Courier New", Courier, monospace;
+    }
+
+    /* Google Fonts */
+    #ModalNoticia .ql-font-roboto,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-roboto {
+        font-family: Roboto, sans-serif;
+    }
+
+    #ModalNoticia .ql-font-opensans,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-opensans {
+        font-family: "Open Sans", sans-serif;
+    }
+
+    #ModalNoticia .ql-font-inter,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-inter {
+        font-family: Inter, sans-serif;
+    }
+
+    #ModalNoticia .ql-font-poppins,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-poppins {
+        font-family: Poppins, sans-serif;
+    }
+
+    #ModalNoticia .ql-font-montserrat,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-montserrat {
+        font-family: Montserrat, sans-serif;
+    }
+
+    #ModalNoticia .ql-font-lora,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-lora {
+        font-family: Lora, serif;
+    }
+
+    #ModalNoticia .ql-font-merriweather,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-merriweather {
+        font-family: Merriweather, serif;
+    }
+
+    #ModalNoticia .ql-font-playfair,
+    #ModalNoticia #noticiaEditor .ql-editor .ql-font-playfair {
+        font-family: "Playfair Display", serif;
+    }
+
+    /* ===========================================
+   QUILL: dropdown (size / align / font etc.)
+   não empurra o modal + scroll
+   =========================================== */
+    #ModalNoticia #noticiaToolbar .ql-picker {
+        position: relative;
+    }
+
+        #ModalNoticia #noticiaToolbar .ql-picker .ql-picker-options {
+            position: absolute !important;
+            top: calc(100% + 6px) !important;
+            left: 0 !important;
+            z-index: 99999 !important;
+            max-height: 200px !important;
+            overflow-y: auto !important;
+            border-radius: 10px;
+            box-shadow: 0 10px 28px rgba(0,0,0,.12);
+        }
+
+        /* largura boa para o size */
+        #ModalNoticia #noticiaToolbar .ql-picker.ql-size .ql-picker-options {
+            min-width: 110px;
+        }
+
+        /* evita que o toolbar “cresça” por causa do picker */
+        #ModalNoticia #noticiaToolbar .ql-picker.ql-expanded .ql-picker-label {
+            z-index: 1;
+        }
+
+.ql-image-resize-overlay {
+    z-index: 9999 !important;
+}
+
+.ql-image-resize-box {
+    z-index: 9999 !important;
+}

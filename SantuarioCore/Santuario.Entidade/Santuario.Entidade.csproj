@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Include="SixLabors.ImageSharp" />
   </ItemGroup>
 
 </Project>

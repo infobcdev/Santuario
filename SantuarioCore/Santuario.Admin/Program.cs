@@ -47,10 +47,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// ✅ 1) Middleware de exceções (antes de routing)
 app.UseSantuarioExceptionHandling();
 
-// ✅ 2) StatusCode pages (404/403 etc sem exception)
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 app.UseHttpsRedirection();

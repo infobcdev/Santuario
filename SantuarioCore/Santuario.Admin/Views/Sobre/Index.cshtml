@@ -1,0 +1,129 @@
+﻿@using System.Linq
+@model Santuario.Admin.ViewModels.Sobre.IndexSobreViewModel
+
+@{
+    ViewData["Title"] = "Sobre";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Sobre </span>Conteúdo
+    </h4>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-circle-info me-2"></i> Sobre
+            </h5>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    onclick="ModalLoader.open('Sobre','CarregarModalSobre', 0)">
+                <i class="fas fa-plus me-2"></i> Novo
+            </button>
+        </div>
+
+        <div class="card-body">
+
+            <!-- FILTROS -->
+            <form method="get" asp-action="Index" class="row g-2 mb-4">
+                <div class="col-12 col-sm-6 col-md-7">
+                    <label class="form-label">Pesquisar</label>
+                    <input name="pesquisar"
+                           value="@Model.Pesquisar"
+                           class="form-control"
+                           placeholder="Ex: título, descrição..." />
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <label class="form-label">Status</label>
+                    <select name="ativo" class="form-select" asp-items="Model.StatusOptions"></select>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-2 align-self-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Consultar
+                    </button>
+                </div>
+            </form>
+
+            <!-- TABELA -->
+            <div class="table-responsive overflow-auto">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th style="width:140px;">Tópicos</th>
+                            <th style="width:140px;">Status</th>
+                            <th class="text-center" style="width:200px;">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Itens != null && Model.Itens.Any())
+                        {
+                            foreach (var x in Model.Itens)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold">@x.Titulo1</div>
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-label-primary">@x.TotalTopicos</span>
+                                    </td>
+
+                                    <td>
+                                        @if (x.Ativo)
+                                        {
+                                            <span class="badge bg-success">Ativo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Inativo</span>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        <div class="btn-group gap-2">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-primary"
+                                                    title="Editar"
+                                                    onclick="ModalLoader.open('Sobre','CarregarModalSobre', @x.Id)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-sm btn-secondary"
+                                                    title="Inativar"
+                                                    data-delete-button="true"
+                                                    data-url="@Url.Action("Excluir", "Sobre", new { id = x.Id })"
+                                                    data-confirm-text="Deseja realmente inativar este conteúdo do Sobre?"
+                                                    data-success-msg="Sobre inativado com sucesso!"
+                                                    data-refresh="page">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">
+                                    Nenhum conteúdo cadastrado.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="modalContainer"></div>
+
+<script src="~/js/sobre.js" asp-append-version="true"></script>

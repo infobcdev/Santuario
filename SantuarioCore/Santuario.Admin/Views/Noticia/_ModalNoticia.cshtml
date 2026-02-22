@@ -1,0 +1,249 @@
+﻿@model Santuario.Admin.ViewModels.Noticia.ModalNoticiaViewModel
+
+<div class="modal fade"
+     id="ModalNoticia"
+     data-id-modal="ModalNoticia"
+     tabindex="-1"
+     aria-labelledby="tituloNoticia"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+
+            <form id="formNoticia"
+                  asp-controller="Noticia"
+                  asp-action="SalvarNoticia"
+                  method="post"
+                  enctype="multipart/form-data"
+                  data-ajax="true"
+                  data-success-msg="Notícia salva com sucesso!"
+                  data-refresh="page">
+
+                @Html.AntiForgeryToken()
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloNoticia">
+                        <i class="fas fa-newspaper me-2"></i>
+                        @(Model.Item.Id == 0 ? "Nova Notícia" : "Editar Notícia")
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="alert alert-info">
+                        <i class="fa fa-circle-exclamation me-2"></i>
+                        A imagem de capa é <b>obrigatória somente ao publicar</b>.
+                    </div>
+
+                    <input type="hidden" asp-for="Item.Id" />
+                    <input type="hidden" asp-for="Item.ImagemCapaUrl" />
+
+                    <!-- TOP FIELDS -->
+                    <div class="row g-3">
+
+                        <div class="col-12 col-lg-7">
+
+                            <div class="mb-3">
+                                <label class="form-label">Título</label>
+                                <input asp-for="Item.Titulo" class="form-control" />
+                                <span class="text-danger" asp-validation-for="Item.Titulo"></span>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <label class="form-label">Categoria</label>
+                                    <input asp-for="Item.Categoria" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Subcategoria (opcional)</label>
+                                    <input asp-for="Item.Subcategoria" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Resumo (opcional)</label>
+                                <textarea asp-for="Item.Resumo" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <label class="form-label">Status</label>
+                                    <select asp-for="Item.Status"
+                                            class="form-select"
+                                            asp-items="Model.StatusOptions"></select>
+                                </div>
+
+                                <div class="col-md-6 d-flex align-items-end">
+                                    <div class="form-check">
+                                        <input asp-for="Item.PermiteComentarios" class="form-check-input" type="checkbox" />
+                                        <label class="form-check-label">Permitir comentários</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Imagem de capa</label>
+                                <input type="file"
+                                       id="arquivoImagemCapa"
+                                       name="imagemCapa"
+                                       class="form-control"
+                                       accept=".png,.jpg,.jpeg" />
+                                <div class="form-text">PNG/JPG. Máx: 2MB.</div>
+                            </div>
+
+                        </div>
+
+                        <!-- PREVIEW CAPA -->
+                        <div class="col-12 col-lg-5 text-center">
+                            <label class="form-label fw-semibold">Pré-visualização da capa</label>
+
+                            @{
+                                var img = !string.IsNullOrWhiteSpace(Model.Item.ImagemCapaUrl)
+                                ? Model.Item.ImagemCapaUrl
+                                : Url.Content("~/theme/assets/img/semImagem.png");
+                            }
+
+                            <div class="border rounded p-3 bg-light shadow-sm">
+                                <img id="previewImagemCapa"
+                                     src="@img"
+                                     alt="Pré-visualização"
+                                     class="img-fluid rounded"
+                                     style="max-height:320px; object-fit:contain;" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <!-- EDITOR -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div class="fw-semibold">
+                                <i class="fas fa-pen-to-square me-2"></i>
+                                Conteúdo da Notícia
+                            </div>
+                            <small class="text-muted">
+                                Negrito, alinhamento, imagem, listas, links...
+                            </small>
+                        </div>
+
+                        <div class="card-body">
+
+                            <!-- Hidden Fields -->
+                            <textarea id="ConteudoJson"
+                                      name="Item.ConteudoJson"
+                                      hidden>@Html.Raw(Model?.Item?.ConteudoJson ?? "")</textarea>
+
+                            <textarea id="ConteudoHtml"
+                                      name="Item.ConteudoHtml"
+                                      hidden>@Html.Raw(Model?.Item?.ConteudoHtml ?? "")</textarea>
+
+                            <div class="row g-3">
+
+                                <!-- EDITOR -->
+                                <div class="col-12 col-lg-6">
+
+                                    <label class="form-label fw-semibold">Editor</label>
+
+                                    <!-- Toolbar -->
+                                    <div id="noticiaToolbar" class="mb-2 noticia-toolbar">
+
+                                        <span class="ql-formats">
+                                            <select class="ql-font" title="Fonte">
+                                                <option value="arial" selected>Arial</option>
+                                                <option value="times">Times</option>
+                                                <option value="georgia">Georgia</option>
+                                                <option value="roboto">Roboto</option>
+                                                <option value="poppins">Poppins</option>
+                                                <option value="montserrat">Montserrat</option>
+                                                <option value="lora">Lora</option>
+                                                <option value="merriweather">Merriweather</option>
+                                                <option value="playfair">Playfair</option>
+                                            </select>
+                                        </span>
+
+                                        <!-- Tamanho (1–72) — padrão Quill -->
+                                        <span class="ql-formats noticia-fontsize-wrap">
+                                            <select class="ql-size" id="noticiaSizeSelect" title="Tamanho (1-72)"></select>
+                                        </span>
+
+                                        <span class="ql-formats">
+                                            <button class="ql-bold"></button>
+                                            <button class="ql-italic"></button>
+                                            <button class="ql-underline"></button>
+                                            <button class="ql-strike"></button>
+                                        </span>
+
+                                        <span class="ql-formats">
+                                            <select class="ql-align"></select>
+                                        </span>
+
+                                        <span class="ql-formats">
+                                            <button class="ql-list" value="ordered"></button>
+                                            <button class="ql-list" value="bullet"></button>
+                                            <button class="ql-blockquote"></button>
+                                        </span>
+
+                                        <span class="ql-formats">
+                                            <button class="ql-link"></button>
+                                            <button class="ql-image"></button>
+                                        </span>
+
+                                        <span class="ql-formats">
+                                            <button class="ql-clean"></button>
+                                        </span>
+                                    </div>
+
+                                    <!-- Editor Area -->
+                                    <div id="noticiaEditor" class="border rounded"></div>
+
+                                    <span class="text-danger" asp-validation-for="Item.ConteudoJson"></span>
+                                </div>
+
+                                <!-- PREVIEW -->
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">
+                                        Pré-visualização (HTML)
+                                    </label>
+
+                                    <div class="border rounded p-3 bg-light">
+                                        <div id="noticiaPreview"
+                                             class="noticia-preview"></div>
+                                    </div>
+
+                                    <div class="form-text mt-2">
+                                        Esse preview é o HTML que aparecerá no site.
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mt-3"></div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">
+                        Fechar
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Salvar
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
